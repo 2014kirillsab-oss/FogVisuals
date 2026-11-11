@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "fogvisuals",
+  "version": "1.1.0",
+  "name": "FogVisuals",
+  "description": "Custom fog for Minecraft 26.3: color, density, presets, biome-aware tinting, pulsing fog and Clear Vision.",
+  "authors": [
+    "Padej_"
+  ],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/fogvisuals/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.Padej_.fogvisuals.FogVisuals"
+    ]
+  },
+  "mixins": [
+    "fogvisuals.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "minecraft": "26.3"
+  }
+}

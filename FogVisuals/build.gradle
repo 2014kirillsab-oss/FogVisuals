@@ -1,0 +1,56 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.19.4'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+dependencies {
+    // Minecraft 26.3 ships unobfuscated, so no mappings dependency is needed.
+    // The "net.fabricmc.fabric-loom" plugin id is Loom's no-remap variant: it
+    // skips intermediary remapping entirely, so plain configurations are used
+    // (modImplementation/modApi do not exist in this mode).
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Bundle only the Fabric API modules FogVisuals uses, as nested jars,
+    // so the mod is self-contained and does not require Fabric API in mods/.
+    include "net.fabricmc.fabric-api:fabric-api-base:2.0.6+fcdff87f5d"
+    include "net.fabricmc.fabric-api:fabric-lifecycle-events-v1:4.1.9+ffef5f675d"
+    include "net.fabricmc.fabric-api:fabric-key-mapping-api-v1:2.0.8+3434d6d95d"
+    include "net.fabricmc.fabric-api:fabric-rendering-v1:27.3.0+449655715d"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.release = 25
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+}

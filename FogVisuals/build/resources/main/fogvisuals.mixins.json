@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "me.Padej_.fogvisuals.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "FogRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
